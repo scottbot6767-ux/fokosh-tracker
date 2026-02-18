@@ -33,7 +33,7 @@
     
     .header {
       background: var(--card);
-      padding: 1.25rem 1.5rem;
+      padding: 1rem 1.25rem;
       box-shadow: var(--shadow);
       position: sticky;
       top: 0;
@@ -42,33 +42,33 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.75rem;
     }
     
     .logo {
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--crust-dark);
       letter-spacing: -0.02em;
     }
     
     .date {
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       color: var(--text-secondary);
     }
     
     .view-toggle {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.375rem;
     }
     
     .view-btn {
-      padding: 0.75rem 1.25rem;
+      padding: 0.625rem 1rem;
       border: 2px solid var(--wheat);
       background: transparent;
-      border-radius: 10px;
+      border-radius: 8px;
       font-family: inherit;
-      font-size: 0.9375rem;
+      font-size: 0.875rem;
       font-weight: 600;
       color: var(--text-secondary);
       cursor: pointer;
@@ -82,47 +82,40 @@
     }
     
     .container {
-      padding: 1.5rem;
+      padding: 1.25rem;
       max-width: 1400px;
       margin: 0 auto;
-      padding-bottom: 120px;
+      padding-bottom: 110px;
     }
     
-    /* === SALES VIEW (Tablet) === */
-    .sales-section { display: block; }
-    .sales-section.hidden { display: none; }
-    .manage-section { display: none; }
-    .manage-section.active { display: block; }
+    /* === VIEW SECTIONS === */
+    .view-section { display: none; }
+    .view-section.active { display: block; }
     
+    /* === SALES VIEW === */
     .bread-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.875rem;
     }
     
     @media (min-width: 600px) {
       .bread-grid {
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 1.25rem;
-      }
-    }
-    
-    @media (min-width: 900px) {
-      .bread-grid {
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
       }
     }
     
     .bread-card {
       background: var(--card);
-      border-radius: 16px;
-      padding: 1.5rem;
+      border-radius: 14px;
+      padding: 1.25rem;
       box-shadow: var(--shadow);
       cursor: pointer;
       transition: all 0.15s ease;
       position: relative;
       overflow: hidden;
-      min-height: 150px;
+      min-height: 130px;
       display: flex;
       flex-direction: column;
     }
@@ -144,18 +137,19 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) rotate(-12deg);
-      font-size: 1.125rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--crust-dark);
       opacity: 0.5;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
     }
     
     .bread-name {
-      font-size: 1.125rem;
+      font-size: 1rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
-      line-height: 1.25;
+      margin-bottom: 0.375rem;
+      line-height: 1.2;
+      padding-right: 2rem;
     }
     
     .bread-counts {
@@ -166,83 +160,80 @@
     }
     
     .bread-remaining {
-      font-size: 3rem;
+      font-size: 2.5rem;
       font-weight: 700;
       color: var(--crust-dark);
       line-height: 1;
     }
     
     .bread-sold {
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       color: var(--text-secondary);
     }
     
     .undo-btn {
       position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      width: 36px;
-      height: 36px;
+      top: 0.625rem;
+      right: 0.625rem;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       border: none;
       background: var(--success);
       color: white;
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      opacity: 0.9;
     }
     
-    .undo-btn:active {
-      transform: scale(0.9);
-    }
+    .undo-btn:active { transform: scale(0.9); }
     
     .empty-state {
       text-align: center;
-      padding: 4rem 2rem;
+      padding: 3rem 1.5rem;
       color: var(--text-secondary);
     }
     
     .empty-state h2 {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       margin-bottom: 0.5rem;
       color: var(--text);
     }
     
     /* === MANAGE VIEW === */
     .section-title {
-      font-size: 1rem;
+      font-size: 0.875rem;
       font-weight: 600;
       color: var(--text-secondary);
-      margin-bottom: 1rem;
+      margin-bottom: 0.875rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
     
     .manage-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
     }
     
     .manage-card {
       background: var(--card);
-      border-radius: 12px;
-      padding: 1.25rem;
+      border-radius: 10px;
+      padding: 1rem;
       box-shadow: var(--shadow);
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
     }
     
     .manage-toggle {
-      width: 56px;
-      height: 32px;
-      border-radius: 16px;
+      width: 50px;
+      height: 28px;
+      border-radius: 14px;
       background: var(--wheat);
       border: none;
       cursor: pointer;
@@ -251,144 +242,220 @@
       flex-shrink: 0;
     }
     
-    .manage-toggle.active {
-      background: var(--success);
-    }
+    .manage-toggle.active { background: var(--success); }
     
     .manage-toggle::after {
       content: '';
       position: absolute;
-      top: 4px;
-      left: 4px;
-      width: 24px;
-      height: 24px;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       background: white;
       transition: transform 0.2s;
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
     
-    .manage-toggle.active::after {
-      transform: translateX(24px);
-    }
+    .manage-toggle.active::after { transform: translateX(22px); }
     
-    .manage-info {
-      flex: 1;
-      min-width: 0;
-    }
-    
-    .manage-name {
-      font-weight: 600;
-      margin-bottom: 0.125rem;
-    }
-    
-    .manage-stats {
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-    }
+    .manage-info { flex: 1; min-width: 0; }
+    .manage-name { font-weight: 600; font-size: 0.9375rem; }
+    .manage-stats { font-size: 0.75rem; color: var(--text-secondary); }
     
     .baked-input {
-      width: 65px;
-      padding: 0.5rem;
+      width: 58px;
+      padding: 0.4rem;
       border: 2px solid var(--wheat);
-      border-radius: 8px;
+      border-radius: 6px;
       font-family: inherit;
-      font-size: 1.125rem;
+      font-size: 1rem;
       font-weight: 600;
       text-align: center;
       color: var(--text);
     }
     
-    .baked-input:focus {
-      outline: none;
-      border-color: var(--crust);
-    }
+    .baked-input:focus { outline: none; border-color: var(--crust); }
     
     .delete-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
       border: none;
       background: #fee;
       color: #c44;
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       cursor: pointer;
-      transition: all 0.2s;
       flex-shrink: 0;
     }
     
-    .delete-btn:hover {
-      background: #fcc;
-    }
+    .delete-btn:hover { background: #fcc; }
     
-    /* Add new bread */
     .add-bread-form {
       background: var(--card);
-      border-radius: 12px;
-      padding: 1.25rem;
+      border-radius: 10px;
+      padding: 1rem;
       box-shadow: var(--shadow);
       display: flex;
-      gap: 0.75rem;
+      gap: 0.625rem;
       flex-wrap: wrap;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     
     .add-bread-form input[type="text"] {
       flex: 1;
-      min-width: 180px;
-      padding: 0.875rem 1rem;
+      min-width: 160px;
+      padding: 0.75rem 1rem;
       border: 2px solid var(--wheat);
-      border-radius: 8px;
+      border-radius: 6px;
       font-family: inherit;
-      font-size: 1rem;
+      font-size: 0.9375rem;
     }
     
-    .add-bread-form input:focus {
-      outline: none;
-      border-color: var(--crust);
-    }
+    .add-bread-form input:focus { outline: none; border-color: var(--crust); }
     
     .add-bread-form button {
-      padding: 0.875rem 1.5rem;
+      padding: 0.75rem 1.25rem;
       background: var(--crust);
       color: white;
       border: none;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-      white-space: nowrap;
-    }
-    
-    .add-bread-form button:hover {
-      background: var(--crust-dark);
-    }
-    
-    /* Reset button */
-    .reset-section {
-      margin-top: 2rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--wheat);
-    }
-    
-    .reset-btn {
-      padding: 0.75rem 1.25rem;
-      background: #fff5f5;
-      color: #c44;
-      border: 2px solid #fcc;
-      border-radius: 8px;
+      border-radius: 6px;
       font-family: inherit;
       font-size: 0.9375rem;
       font-weight: 600;
       cursor: pointer;
+      white-space: nowrap;
     }
     
-    /* Summary bar */
+    .add-bread-form button:hover { background: var(--crust-dark); }
+    
+    .reset-section {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--wheat);
+    }
+    
+    .reset-btn {
+      padding: 0.625rem 1rem;
+      background: #fff5f5;
+      color: #c44;
+      border: 2px solid #fcc;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    /* === HISTORY VIEW === */
+    .history-section { margin-bottom: 2rem; }
+    
+    .popularity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    
+    .popularity-card {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .popularity-rank {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--wheat);
+      width: 36px;
+      text-align: center;
+    }
+    
+    .popularity-rank.gold { color: #d4a853; }
+    .popularity-rank.silver { color: #a8a8a8; }
+    .popularity-rank.bronze { color: #c4956a; }
+    
+    .popularity-info { flex: 1; }
+    .popularity-name { font-weight: 600; font-size: 0.9375rem; }
+    .popularity-total { font-size: 0.8125rem; color: var(--text-secondary); }
+    
+    .popularity-bar {
+      height: 6px;
+      background: var(--wheat);
+      border-radius: 3px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .popularity-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--crust), var(--crust-dark));
+      border-radius: 3px;
+    }
+    
+    .day-card {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 0.75rem;
+    }
+    
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--wheat);
+    }
+    
+    .day-date {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    
+    .day-total {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    
+    .day-total strong {
+      color: var(--crust-dark);
+      font-size: 1.125rem;
+    }
+    
+    .day-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .day-item {
+      background: var(--bg);
+      padding: 0.375rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8125rem;
+    }
+    
+    .day-item strong {
+      color: var(--crust-dark);
+    }
+    
+    .no-history {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+    
+    /* === SUMMARY BAR === */
     .summary-bar {
       background: var(--card);
-      padding: 1rem 1.5rem;
+      padding: 0.875rem 1.25rem;
       position: fixed;
       bottom: 0;
       left: 0;
@@ -396,37 +463,36 @@
       box-shadow: 0 -4px 20px rgba(44, 24, 16, 0.1);
       display: flex;
       justify-content: space-around;
-      gap: 1rem;
+      gap: 0.75rem;
     }
     
-    .summary-item {
-      text-align: center;
-    }
+    .summary-item { text-align: center; }
     
     .summary-value {
-      font-size: 1.5rem;
+      font-size: 1.375rem;
       font-weight: 700;
       color: var(--crust-dark);
     }
     
     .summary-label {
-      font-size: 0.6875rem;
+      font-size: 0.625rem;
       color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
     
-    /* Toast notification */
+    /* === TOAST === */
     .toast {
       position: fixed;
-      bottom: 100px;
+      bottom: 90px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
       background: var(--text);
       color: white;
-      padding: 0.875rem 1.5rem;
-      border-radius: 12px;
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
       font-weight: 500;
+      font-size: 0.9375rem;
       opacity: 0;
       transition: all 0.3s ease;
       z-index: 1000;
@@ -446,30 +512,44 @@
       <div class="date" id="currentDate"></div>
     </div>
     <div class="view-toggle">
-      <button class="view-btn active" id="salesBtn">Sales</button>
-      <button class="view-btn" id="manageBtn">Manage</button>
+      <button class="view-btn active" data-view="sales">Sales</button>
+      <button class="view-btn" data-view="manage">Manage</button>
+      <button class="view-btn" data-view="history">History</button>
     </div>
   </header>
   
   <main class="container">
     <!-- Sales View -->
-    <section class="sales-section" id="salesView">
+    <section class="view-section active" id="salesView">
       <div class="bread-grid" id="breadGrid"></div>
     </section>
     
     <!-- Manage View -->
-    <section class="manage-section" id="manageView">
+    <section class="view-section" id="manageView">
       <h2 class="section-title">Add New Bread</h2>
       <form class="add-bread-form" id="addBreadForm">
         <input type="text" id="newBreadName" placeholder="Bread name (e.g., Sourdough)" required>
-        <button type="submit">+ Add Bread</button>
+        <button type="submit">+ Add</button>
       </form>
       
       <h2 class="section-title">Today's Menu</h2>
       <div class="manage-grid" id="manageGrid"></div>
       
       <div class="reset-section">
-        <button class="reset-btn" id="resetBtn">Reset All Counts for New Day</button>
+        <button class="reset-btn" id="resetBtn">End Day & Save to History</button>
+      </div>
+    </section>
+    
+    <!-- History View -->
+    <section class="view-section" id="historyView">
+      <div class="history-section">
+        <h2 class="section-title">Most Popular (All Time)</h2>
+        <div class="popularity-grid" id="popularityGrid"></div>
+      </div>
+      
+      <div class="history-section">
+        <h2 class="section-title">Daily Sales</h2>
+        <div id="historyList"></div>
       </div>
     </section>
   </main>
@@ -492,8 +572,10 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    // === LOCAL STORAGE VERSION ===
-    const STORAGE_KEY = 'fokosh_breads';
+    // === STORAGE KEYS ===
+    const BREADS_KEY = 'fokosh_breads';
+    const HISTORY_KEY = 'fokosh_history';
+    const TOTALS_KEY = 'fokosh_totals';
     
     // Default starter breads
     const DEFAULT_BREADS = [
@@ -508,6 +590,8 @@
     ];
     
     let breads = [];
+    let history = []; // Array of { date, items: [{name, sold}], total }
+    let allTimeTotals = {}; // { breadName: totalSold }
     
     // === INIT ===
     function init() {
@@ -517,37 +601,46 @@
         weekday: 'long', month: 'short', day: 'numeric' 
       });
       
-      // Load breads from localStorage or use defaults
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        breads = JSON.parse(stored);
-      } else {
-        breads = DEFAULT_BREADS;
-        saveBreads();
-      }
+      // Load data
+      const storedBreads = localStorage.getItem(BREADS_KEY);
+      const storedHistory = localStorage.getItem(HISTORY_KEY);
+      const storedTotals = localStorage.getItem(TOTALS_KEY);
+      
+      breads = storedBreads ? JSON.parse(storedBreads) : DEFAULT_BREADS;
+      history = storedHistory ? JSON.parse(storedHistory) : [];
+      allTimeTotals = storedTotals ? JSON.parse(storedTotals) : {};
+      
+      if (!storedBreads) saveBreads();
       
       render();
       
       // View toggle
-      document.getElementById('salesBtn').addEventListener('click', () => switchView('sales'));
-      document.getElementById('manageBtn').addEventListener('click', () => switchView('manage'));
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchView(btn.dataset.view));
+      });
       
       // Add bread form
       document.getElementById('addBreadForm').addEventListener('submit', handleAddBread);
       
-      // Reset button
-      document.getElementById('resetBtn').addEventListener('click', handleReset);
+      // Reset/End day button
+      document.getElementById('resetBtn').addEventListener('click', handleEndDay);
     }
     
-    // === SAVE/LOAD ===
+    // === SAVE ===
     function saveBreads() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(breads));
+      localStorage.setItem(BREADS_KEY, JSON.stringify(breads));
+    }
+    
+    function saveHistory() {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+      localStorage.setItem(TOTALS_KEY, JSON.stringify(allTimeTotals));
     }
     
     // === RENDER ===
     function render() {
       renderSalesView();
       renderManageView();
+      renderHistoryView();
       updateSummary();
     }
     
@@ -559,7 +652,7 @@
         grid.innerHTML = `
           <div class="empty-state" style="grid-column: 1 / -1;">
             <h2>No breads active today</h2>
-            <p>Go to <strong>Manage</strong> to turn on breads and set baked amounts</p>
+            <p>Go to <strong>Manage</strong> to set up today's menu</p>
           </div>
         `;
         return;
@@ -601,6 +694,59 @@
       `).join('');
     }
     
+    function renderHistoryView() {
+      // Popularity rankings
+      const popularityGrid = document.getElementById('popularityGrid');
+      const sortedTotals = Object.entries(allTimeTotals)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10);
+      
+      const maxTotal = sortedTotals.length > 0 ? sortedTotals[0][1] : 1;
+      
+      if (sortedTotals.length === 0) {
+        popularityGrid.innerHTML = '<div class="no-history">No sales recorded yet</div>';
+      } else {
+        popularityGrid.innerHTML = sortedTotals.map(([name, total], i) => {
+          const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+          const fillPct = (total / maxTotal) * 100;
+          
+          return `
+            <div class="popularity-card">
+              <div class="popularity-rank ${rankClass}">#${i + 1}</div>
+              <div class="popularity-info">
+                <div class="popularity-name">${name}</div>
+                <div class="popularity-total">${total} loaves sold</div>
+                <div class="popularity-bar">
+                  <div class="popularity-fill" style="width: ${fillPct}%"></div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+      
+      // Daily history
+      const historyList = document.getElementById('historyList');
+      
+      if (history.length === 0) {
+        historyList.innerHTML = '<div class="no-history">No history yet. Tap "End Day & Save to History" to record today\'s sales.</div>';
+      } else {
+        historyList.innerHTML = history.slice().reverse().map(day => `
+          <div class="day-card">
+            <div class="day-header">
+              <div class="day-date">${day.date}</div>
+              <div class="day-total">Total: <strong>${day.total}</strong> sold</div>
+            </div>
+            <div class="day-items">
+              ${day.items.filter(item => item.sold > 0).map(item => `
+                <div class="day-item"><strong>${item.sold}</strong> ${item.name}</div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+    
     // === ACTIONS ===
     function sellBread(id) {
       const bread = breads.find(b => b.id === id);
@@ -616,7 +762,6 @@
       saveBreads();
       render();
       
-      // Haptic feedback if available
       if (navigator.vibrate) navigator.vibrate(10);
     }
     
@@ -679,36 +824,59 @@
       showToast(`${bread?.name} deleted`);
     }
     
-    function handleReset() {
-      if (!confirm('Reset all counts for a new day? This will set all baked and sold counts to 0.')) return;
+    function handleEndDay() {
+      const activeBreads = breads.filter(b => b.active);
+      const totalSold = activeBreads.reduce((sum, b) => sum + b.sold_today, 0);
       
+      if (totalSold === 0) {
+        if (!confirm('No sales recorded today. Save anyway?')) return;
+      } else {
+        if (!confirm(`End day and save ${totalSold} sales to history?`)) return;
+      }
+      
+      // Record today's date
+      const today = new Date();
+      const dateStr = today.toLocaleDateString('en-US', { 
+        weekday: 'short', month: 'short', day: 'numeric' 
+      });
+      
+      // Build day record
+      const dayRecord = {
+        date: dateStr,
+        timestamp: today.toISOString(),
+        total: totalSold,
+        items: activeBreads.map(b => ({ name: b.name, sold: b.sold_today, baked: b.baked_today }))
+      };
+      
+      // Update all-time totals
+      activeBreads.forEach(b => {
+        allTimeTotals[b.name] = (allTimeTotals[b.name] || 0) + b.sold_today;
+      });
+      
+      // Add to history
+      history.push(dayRecord);
+      saveHistory();
+      
+      // Reset today's counts
       breads.forEach(b => {
         b.baked_today = 0;
         b.sold_today = 0;
       });
       saveBreads();
+      
       render();
-      showToast('Counts reset!');
+      showToast('Day saved to history!');
+      switchView('history');
     }
     
     // === UI HELPERS ===
     function switchView(view) {
-      const salesBtn = document.getElementById('salesBtn');
-      const manageBtn = document.getElementById('manageBtn');
-      const salesView = document.getElementById('salesView');
-      const manageView = document.getElementById('manageView');
-      
-      if (view === 'sales') {
-        salesBtn.classList.add('active');
-        manageBtn.classList.remove('active');
-        salesView.classList.remove('hidden');
-        manageView.classList.remove('active');
-      } else {
-        salesBtn.classList.remove('active');
-        manageBtn.classList.add('active');
-        salesView.classList.add('hidden');
-        manageView.classList.add('active');
-      }
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.view === view);
+      });
+      document.querySelectorAll('.view-section').forEach(section => {
+        section.classList.toggle('active', section.id === view + 'View');
+      });
     }
     
     function updateSummary() {
