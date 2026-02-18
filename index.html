@@ -45,12 +45,24 @@
       gap: 0.75rem;
     }
     
+    .header-left { display: flex; align-items: center; gap: 0.75rem; }
+    
     .logo {
       font-size: 1.5rem;
       font-weight: 700;
       color: var(--crust-dark);
       letter-spacing: -0.02em;
     }
+    
+    .sync-status {
+      font-size: 0.6875rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    
+    .sync-status.online { background: #e6f4e6; color: #2d6a2d; }
+    .sync-status.offline { background: #fff3e6; color: #b35900; }
     
     .date {
       font-size: 0.8125rem;
@@ -88,11 +100,9 @@
       padding-bottom: 110px;
     }
     
-    /* === VIEW SECTIONS === */
     .view-section { display: none; }
     .view-section.active { display: block; }
     
-    /* === SALES VIEW === */
     .bread-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -203,7 +213,6 @@
       color: var(--text);
     }
     
-    /* === MANAGE VIEW === */
     .section-title {
       font-size: 0.875rem;
       font-weight: 600;
@@ -347,7 +356,6 @@
       cursor: pointer;
     }
     
-    /* === HISTORY VIEW === */
     .history-section { margin-bottom: 2rem; }
     
     .popularity-grid {
@@ -414,26 +422,11 @@
       border-bottom: 1px solid var(--wheat);
     }
     
-    .day-date {
-      font-weight: 600;
-      font-size: 1rem;
-    }
+    .day-date { font-weight: 600; font-size: 1rem; }
+    .day-total { font-size: 0.875rem; color: var(--text-secondary); }
+    .day-total strong { color: var(--crust-dark); font-size: 1.125rem; }
     
-    .day-total {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-    }
-    
-    .day-total strong {
-      color: var(--crust-dark);
-      font-size: 1.125rem;
-    }
-    
-    .day-items {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
+    .day-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     
     .day-item {
       background: var(--bg);
@@ -442,9 +435,7 @@
       font-size: 0.8125rem;
     }
     
-    .day-item strong {
-      color: var(--crust-dark);
-    }
+    .day-item strong { color: var(--crust-dark); }
     
     .no-history {
       text-align: center;
@@ -452,7 +443,6 @@
       color: var(--text-secondary);
     }
     
-    /* === SUMMARY BAR === */
     .summary-bar {
       background: var(--card);
       padding: 0.875rem 1.25rem;
@@ -467,21 +457,9 @@
     }
     
     .summary-item { text-align: center; }
+    .summary-value { font-size: 1.375rem; font-weight: 700; color: var(--crust-dark); }
+    .summary-label { font-size: 0.625rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
     
-    .summary-value {
-      font-size: 1.375rem;
-      font-weight: 700;
-      color: var(--crust-dark);
-    }
-    
-    .summary-label {
-      font-size: 0.625rem;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    
-    /* === TOAST === */
     .toast {
       position: fixed;
       bottom: 90px;
@@ -507,9 +485,12 @@
 </head>
 <body>
   <header class="header">
-    <div>
-      <div class="logo">Fkosh</div>
-      <div class="date" id="currentDate"></div>
+    <div class="header-left">
+      <div>
+        <div class="logo">Fkosh</div>
+        <div class="date" id="currentDate"></div>
+      </div>
+      <span class="sync-status offline" id="syncStatus">Offline</span>
     </div>
     <div class="view-toggle">
       <button class="view-btn active" data-view="sales">Sales</button>
@@ -519,14 +500,12 @@
   </header>
   
   <main class="container">
-    <!-- Sales View -->
     <section class="view-section active" id="salesView">
       <div class="bread-grid" id="breadGrid"></div>
     </section>
     
-    <!-- Manage View -->
     <section class="view-section" id="manageView">
-      <h2 class="section-title">Add New Bread</h2>
+      <h2 class="section-title">Add New Flavor</h2>
       <form class="add-bread-form" id="addBreadForm">
         <input type="text" id="newBreadName" placeholder="Flavor name (e.g., Herb Garlic)" required>
         <button type="submit">+ Add</button>
@@ -540,7 +519,6 @@
       </div>
     </section>
     
-    <!-- History View -->
     <section class="view-section" id="historyView">
       <div class="history-section">
         <h2 class="section-title">Most Popular (All Time)</h2>
@@ -571,70 +549,107 @@
   
   <div class="toast" id="toast"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // === STORAGE KEYS ===
-    const BREADS_KEY = 'fokosh_breads';
-    const HISTORY_KEY = 'fokosh_history';
-    const TOTALS_KEY = 'fokosh_totals';
+    // === SUPABASE CONFIG ===
+    const SUPABASE_URL = 'https://khgxuruuedphulsimrzn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZ3h1cnV1ZWRwaHVsc2ltcnpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyOTY3MDgsImV4cCI6MjA4Njg3MjcwOH0.TgagNeF4dKzZX_B1jsKsPb9007JwXouhcBVEoWmAuPc';
     
-    // Default Fkosh focaccia flavors
-    const DEFAULT_BREADS = [
-      { id: 1, name: 'Original', active: true, baked_today: 12, sold_today: 0 },
-      { id: 2, name: 'Rosemary Sea Salt', active: true, baked_today: 8, sold_today: 0 },
-      { id: 3, name: 'Garlic Parmesan', active: true, baked_today: 6, sold_today: 0 },
-      { id: 4, name: 'Salami Swiss', active: true, baked_today: 6, sold_today: 0 },
-      { id: 5, name: 'Everything', active: false, baked_today: 0, sold_today: 0 },
-      { id: 6, name: 'Olive Tomato', active: false, baked_today: 0, sold_today: 0 },
-      { id: 7, name: 'Jalapeño Cheddar', active: false, baked_today: 0, sold_today: 0 },
-      { id: 8, name: 'Pumpkin Spice', active: false, baked_today: 0, sold_today: 0 },
-      { id: 9, name: 'Cinnamon Sugar', active: false, baked_today: 0, sold_today: 0 },
-    ];
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     let breads = [];
-    let history = []; // Array of { date, items: [{name, sold}], total }
-    let allTimeTotals = {}; // { breadName: totalSold }
+    let history = [];
+    let allTimeTotals = {};
+    let isOnline = false;
     
     // === INIT ===
-    function init() {
-      // Set date
+    async function init() {
       const today = new Date();
       document.getElementById('currentDate').textContent = today.toLocaleDateString('en-US', { 
         weekday: 'long', month: 'short', day: 'numeric' 
       });
       
-      // Load data
-      const storedBreads = localStorage.getItem(BREADS_KEY);
-      const storedHistory = localStorage.getItem(HISTORY_KEY);
-      const storedTotals = localStorage.getItem(TOTALS_KEY);
+      // Try to load from Supabase
+      await loadFromSupabase();
       
-      breads = storedBreads ? JSON.parse(storedBreads) : DEFAULT_BREADS;
-      history = storedHistory ? JSON.parse(storedHistory) : [];
-      allTimeTotals = storedTotals ? JSON.parse(storedTotals) : {};
+      // Set up real-time subscriptions
+      setupRealtimeSubscriptions();
       
-      if (!storedBreads) saveBreads();
-      
-      render();
-      
-      // View toggle
+      // Event listeners
       document.querySelectorAll('.view-btn').forEach(btn => {
         btn.addEventListener('click', () => switchView(btn.dataset.view));
       });
-      
-      // Add bread form
       document.getElementById('addBreadForm').addEventListener('submit', handleAddBread);
-      
-      // Reset/End day button
       document.getElementById('resetBtn').addEventListener('click', handleEndDay);
     }
     
-    // === SAVE ===
-    function saveBreads() {
-      localStorage.setItem(BREADS_KEY, JSON.stringify(breads));
+    // === SUPABASE OPERATIONS ===
+    async function loadFromSupabase() {
+      try {
+        // Load breads
+        const { data: breadsData, error: breadsError } = await supabase
+          .from('fkosh_breads')
+          .select('*')
+          .order('sort_order');
+        
+        if (breadsError) throw breadsError;
+        
+        breads = breadsData || [];
+        isOnline = true;
+        updateSyncStatus(true);
+        
+        // Load history
+        const { data: historyData } = await supabase
+          .from('fkosh_history')
+          .select('*')
+          .order('timestamp', { ascending: false });
+        
+        history = (historyData || []).map(h => ({
+          date: h.date,
+          total: h.total_sold,
+          items: h.items || []
+        }));
+        
+        // Load totals
+        const { data: totalsData } = await supabase
+          .from('fkosh_totals')
+          .select('*');
+        
+        allTimeTotals = {};
+        (totalsData || []).forEach(t => {
+          allTimeTotals[t.name] = t.total_sold;
+        });
+        
+        render();
+        console.log('Loaded from Supabase:', breads.length, 'breads');
+        
+      } catch (err) {
+        console.error('Supabase error:', err);
+        isOnline = false;
+        updateSyncStatus(false);
+        showToast('Offline mode');
+      }
     }
     
-    function saveHistory() {
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-      localStorage.setItem(TOTALS_KEY, JSON.stringify(allTimeTotals));
+    function setupRealtimeSubscriptions() {
+      supabase
+        .channel('fkosh_changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'fkosh_breads' }, () => {
+          loadFromSupabase();
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'fkosh_history' }, () => {
+          loadFromSupabase();
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'fkosh_totals' }, () => {
+          loadFromSupabase();
+        })
+        .subscribe();
+    }
+    
+    function updateSyncStatus(online) {
+      const el = document.getElementById('syncStatus');
+      el.textContent = online ? 'Synced' : 'Offline';
+      el.className = 'sync-status ' + (online ? 'online' : 'offline');
     }
     
     // === RENDER ===
@@ -652,7 +667,7 @@
       if (activeBreads.length === 0) {
         grid.innerHTML = `
           <div class="empty-state" style="grid-column: 1 / -1;">
-            <h2>No breads active today</h2>
+            <h2>No flavors active today</h2>
             <p>Go to <strong>Manage</strong> to set up today's menu</p>
           </div>
         `;
@@ -696,7 +711,6 @@
     }
     
     function renderHistoryView() {
-      // Popularity rankings
       const popularityGrid = document.getElementById('popularityGrid');
       const sortedTotals = Object.entries(allTimeTotals)
         .sort((a, b) => b[1] - a[1])
@@ -726,13 +740,12 @@
         }).join('');
       }
       
-      // Daily history
       const historyList = document.getElementById('historyList');
       
       if (history.length === 0) {
         historyList.innerHTML = '<div class="no-history">No history yet. Tap "End Day & Save to History" to record today\'s sales.</div>';
       } else {
-        historyList.innerHTML = history.slice().reverse().map(day => `
+        historyList.innerHTML = history.map(day => `
           <div class="day-card">
             <div class="day-header">
               <div class="day-date">${day.date}</div>
@@ -749,7 +762,7 @@
     }
     
     // === ACTIONS ===
-    function sellBread(id) {
+    async function sellBread(id) {
       const bread = breads.find(b => b.id === id);
       if (!bread) return;
       
@@ -759,73 +772,108 @@
         return;
       }
       
+      // Optimistic update
       bread.sold_today++;
-      saveBreads();
       render();
-      
       if (navigator.vibrate) navigator.vibrate(10);
+      
+      // Sync to Supabase
+      const { error } = await supabase
+        .from('fkosh_breads')
+        .update({ sold_today: bread.sold_today })
+        .eq('id', id);
+      
+      if (error) {
+        bread.sold_today--;
+        render();
+        showToast('Sync error');
+      }
     }
     
-    function undoSell(id) {
+    async function undoSell(id) {
       const bread = breads.find(b => b.id === id);
       if (!bread || bread.sold_today <= 0) return;
       
       bread.sold_today--;
-      saveBreads();
       render();
+      
+      await supabase
+        .from('fkosh_breads')
+        .update({ sold_today: bread.sold_today })
+        .eq('id', id);
     }
     
-    function toggleActive(id) {
+    async function toggleActive(id) {
       const bread = breads.find(b => b.id === id);
       if (!bread) return;
       
       bread.active = !bread.active;
-      saveBreads();
       render();
+      
+      await supabase
+        .from('fkosh_breads')
+        .update({ active: bread.active })
+        .eq('id', id);
     }
     
-    function updateBaked(id, value) {
+    async function updateBaked(id, value) {
       const bread = breads.find(b => b.id === id);
       if (!bread) return;
       
       bread.baked_today = Math.max(0, parseInt(value) || 0);
-      saveBreads();
       render();
+      
+      await supabase
+        .from('fkosh_breads')
+        .update({ baked_today: bread.baked_today })
+        .eq('id', id);
     }
     
-    function handleAddBread(e) {
+    async function handleAddBread(e) {
       e.preventDefault();
       const nameInput = document.getElementById('newBreadName');
       const name = nameInput.value.trim();
       
       if (!name) return;
       
-      const newId = Math.max(0, ...breads.map(b => b.id)) + 1;
-      breads.push({
-        id: newId,
-        name: name,
-        active: false,
-        baked_today: 0,
-        sold_today: 0
-      });
+      const sortOrder = breads.length > 0 ? Math.max(...breads.map(b => b.sort_order || 0)) + 1 : 1;
       
-      saveBreads();
-      render();
+      const { data, error } = await supabase
+        .from('fkosh_breads')
+        .insert([{ name, active: false, baked_today: 0, sold_today: 0, sort_order: sortOrder }])
+        .select();
+      
+      if (error) {
+        showToast('Error adding flavor');
+        return;
+      }
+      
+      if (data && data[0]) {
+        breads.push(data[0]);
+        render();
+      }
+      
       nameInput.value = '';
       showToast(`${name} added!`);
     }
     
-    function deleteBread(id) {
+    async function deleteBread(id) {
       const bread = breads.find(b => b.id === id);
       if (!confirm(`Delete "${bread?.name}"?`)) return;
       
-      breads = breads.filter(b => b.id !== id);
-      saveBreads();
-      render();
-      showToast(`${bread?.name} deleted`);
+      const { error } = await supabase
+        .from('fkosh_breads')
+        .delete()
+        .eq('id', id);
+      
+      if (!error) {
+        breads = breads.filter(b => b.id !== id);
+        render();
+        showToast(`${bread?.name} deleted`);
+      }
     }
     
-    function handleEndDay() {
+    async function handleEndDay() {
       const activeBreads = breads.filter(b => b.active);
       const totalSold = activeBreads.reduce((sum, b) => sum + b.sold_today, 0);
       
@@ -835,35 +883,47 @@
         if (!confirm(`End day and save ${totalSold} sales to history?`)) return;
       }
       
-      // Record today's date
       const today = new Date();
       const dateStr = today.toLocaleDateString('en-US', { 
         weekday: 'short', month: 'short', day: 'numeric' 
       });
       
-      // Build day record
-      const dayRecord = {
+      const items = activeBreads.map(b => ({ name: b.name, sold: b.sold_today, baked: b.baked_today }));
+      
+      // Save to history
+      await supabase.from('fkosh_history').insert([{
         date: dateStr,
-        timestamp: today.toISOString(),
-        total: totalSold,
-        items: activeBreads.map(b => ({ name: b.name, sold: b.sold_today, baked: b.baked_today }))
-      };
+        total_sold: totalSold,
+        items: items
+      }]);
       
-      // Update all-time totals
-      activeBreads.forEach(b => {
-        allTimeTotals[b.name] = (allTimeTotals[b.name] || 0) + b.sold_today;
-      });
-      
-      // Add to history
-      history.push(dayRecord);
-      saveHistory();
+      // Update totals
+      for (const bread of activeBreads) {
+        if (bread.sold_today > 0) {
+          const currentTotal = allTimeTotals[bread.name] || 0;
+          const newTotal = currentTotal + bread.sold_today;
+          
+          await supabase.from('fkosh_totals').upsert({
+            name: bread.name,
+            total_sold: newTotal
+          }, { onConflict: 'name' });
+          
+          allTimeTotals[bread.name] = newTotal;
+        }
+      }
       
       // Reset today's counts
+      await supabase
+        .from('fkosh_breads')
+        .update({ baked_today: 0, sold_today: 0 })
+        .in('id', breads.map(b => b.id));
+      
       breads.forEach(b => {
         b.baked_today = 0;
         b.sold_today = 0;
       });
-      saveBreads();
+      
+      history.unshift({ date: dateStr, total: totalSold, items });
       
       render();
       showToast('Day saved to history!');
@@ -897,7 +957,6 @@
       setTimeout(() => toast.classList.remove('show'), 2000);
     }
     
-    // Start
     init();
   </script>
 </body>
