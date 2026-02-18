@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Fokosh Bread Tracker</title>
+  <title>Fkosh - Focaccia Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -508,7 +508,7 @@
 <body>
   <header class="header">
     <div>
-      <div class="logo">Fokosh</div>
+      <div class="logo">Fkosh</div>
       <div class="date" id="currentDate"></div>
     </div>
     <div class="view-toggle">
@@ -528,7 +528,7 @@
     <section class="view-section" id="manageView">
       <h2 class="section-title">Add New Bread</h2>
       <form class="add-bread-form" id="addBreadForm">
-        <input type="text" id="newBreadName" placeholder="Bread name (e.g., Sourdough)" required>
+        <input type="text" id="newBreadName" placeholder="Flavor name (e.g., Herb Garlic)" required>
         <button type="submit">+ Add</button>
       </form>
       
@@ -577,16 +577,17 @@
     const HISTORY_KEY = 'fokosh_history';
     const TOTALS_KEY = 'fokosh_totals';
     
-    // Default starter breads
+    // Default Fkosh focaccia flavors
     const DEFAULT_BREADS = [
-      { id: 1, name: 'Sourdough', active: true, baked_today: 12, sold_today: 0 },
-      { id: 2, name: 'Ciabatta', active: true, baked_today: 8, sold_today: 0 },
-      { id: 3, name: 'Focaccia', active: true, baked_today: 6, sold_today: 0 },
-      { id: 4, name: 'Baguette', active: true, baked_today: 10, sold_today: 0 },
-      { id: 5, name: 'Whole Wheat', active: false, baked_today: 0, sold_today: 0 },
-      { id: 6, name: 'Olive Bread', active: false, baked_today: 0, sold_today: 0 },
-      { id: 7, name: 'Rosemary Garlic', active: false, baked_today: 0, sold_today: 0 },
-      { id: 8, name: 'Jalapeño Cheddar', active: false, baked_today: 0, sold_today: 0 },
+      { id: 1, name: 'Original', active: true, baked_today: 12, sold_today: 0 },
+      { id: 2, name: 'Rosemary Sea Salt', active: true, baked_today: 8, sold_today: 0 },
+      { id: 3, name: 'Garlic Parmesan', active: true, baked_today: 6, sold_today: 0 },
+      { id: 4, name: 'Salami Swiss', active: true, baked_today: 6, sold_today: 0 },
+      { id: 5, name: 'Everything', active: false, baked_today: 0, sold_today: 0 },
+      { id: 6, name: 'Olive Tomato', active: false, baked_today: 0, sold_today: 0 },
+      { id: 7, name: 'Jalapeño Cheddar', active: false, baked_today: 0, sold_today: 0 },
+      { id: 8, name: 'Pumpkin Spice', active: false, baked_today: 0, sold_today: 0 },
+      { id: 9, name: 'Cinnamon Sugar', active: false, baked_today: 0, sold_today: 0 },
     ];
     
     let breads = [];
@@ -715,7 +716,7 @@
               <div class="popularity-rank ${rankClass}">#${i + 1}</div>
               <div class="popularity-info">
                 <div class="popularity-name">${name}</div>
-                <div class="popularity-total">${total} loaves sold</div>
+                <div class="popularity-total">${total} sold</div>
                 <div class="popularity-bar">
                   <div class="popularity-fill" style="width: ${fillPct}%"></div>
                 </div>
