@@ -555,7 +555,7 @@
     const SUPABASE_URL = 'https://ryxrgbvymudmqqpefmmf.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ5eHJnYnZ5bXVkbXFxcGVmbW1mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMDM5MTEsImV4cCI6MjA4Njc3OTkxMX0.o9TKcIBHO4whilqiqKoHrGmRR8BCuCzgzwI0quA75H0';
     
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     let breads = [];
     let history = [];
@@ -587,7 +587,7 @@
     async function loadFromSupabase() {
       try {
         // Load breads
-        const { data: breadsData, error: breadsError } = await supabase
+        const { data: breadsData, error: breadsError } = await db
           .from('fkosh_breads')
           .select('*')
           .order('sort_order');
@@ -599,7 +599,7 @@
         updateSyncStatus(true);
         
         // Load history
-        const { data: historyData } = await supabase
+        const { data: historyData } = await db
           .from('fkosh_history')
           .select('*')
           .order('timestamp', { ascending: false });
@@ -611,7 +611,7 @@
         }));
         
         // Load totals
-        const { data: totalsData } = await supabase
+        const { data: totalsData } = await db
           .from('fkosh_totals')
           .select('*');
         
@@ -632,7 +632,7 @@
     }
     
     function setupRealtimeSubscriptions() {
-      supabase
+      db
         .channel('fkosh_changes')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'fkosh_breads' }, () => {
           loadFromSupabase();
@@ -778,7 +778,7 @@
       if (navigator.vibrate) navigator.vibrate(10);
       
       // Sync to Supabase
-      const { error } = await supabase
+      const { error } = await db
         .from('fkosh_breads')
         .update({ sold_today: bread.sold_today })
         .eq('id', id);
@@ -797,7 +797,7 @@
       bread.sold_today--;
       render();
       
-      await supabase
+      await db
         .from('fkosh_breads')
         .update({ sold_today: bread.sold_today })
         .eq('id', id);
@@ -810,7 +810,7 @@
       bread.active = !bread.active;
       render();
       
-      await supabase
+      await db
         .from('fkosh_breads')
         .update({ active: bread.active })
         .eq('id', id);
@@ -823,7 +823,7 @@
       bread.baked_today = Math.max(0, parseInt(value) || 0);
       render();
       
-      await supabase
+      await db
         .from('fkosh_breads')
         .update({ baked_today: bread.baked_today })
         .eq('id', id);
@@ -838,7 +838,7 @@
       
       const sortOrder = breads.length > 0 ? Math.max(...breads.map(b => b.sort_order || 0)) + 1 : 1;
       
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from('fkosh_breads')
         .insert([{ name, active: false, baked_today: 0, sold_today: 0, sort_order: sortOrder }])
         .select();
@@ -861,7 +861,7 @@
       const bread = breads.find(b => b.id === id);
       if (!confirm(`Delete "${bread?.name}"?`)) return;
       
-      const { error } = await supabase
+      const { error } = await db
         .from('fkosh_breads')
         .delete()
         .eq('id', id);
@@ -891,7 +891,7 @@
       const items = activeBreads.map(b => ({ name: b.name, sold: b.sold_today, baked: b.baked_today }));
       
       // Save to history
-      await supabase.from('fkosh_history').insert([{
+      await db.from('fkosh_history').insert([{
         date: dateStr,
         total_sold: totalSold,
         items: items
@@ -903,7 +903,7 @@
           const currentTotal = allTimeTotals[bread.name] || 0;
           const newTotal = currentTotal + bread.sold_today;
           
-          await supabase.from('fkosh_totals').upsert({
+          await db.from('fkosh_totals').upsert({
             name: bread.name,
             total_sold: newTotal
           }, { onConflict: 'name' });
@@ -913,7 +913,7 @@
       }
       
       // Reset today's counts
-      await supabase
+      await db
         .from('fkosh_breads')
         .update({ baked_today: 0, sold_today: 0 })
         .in('id', breads.map(b => b.id));
